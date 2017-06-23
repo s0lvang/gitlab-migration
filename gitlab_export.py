@@ -1,5 +1,6 @@
 import json 
 import subprocess as s
+
 from urllib.parse import quote_plus
 
 
@@ -37,9 +38,6 @@ def exportProject(url):
     s.check_output(final_url, shell=True)
 
 
-   # curl -k -v --http1.1 --referer http://git.itpartner.no/august/Test-import/edit  --request POST --data "_method=post&authenticity_token=p2fNhmB3MOAL5ElODuj%2fZ57NRHuC2DJ8hl0bC5CJ7KX5hR3ybS5nJzKDo5mrFu9ENrZX97f6YhRx45aOoQTzMw%3d%3d" "https://git.itpartner.no/august/Test-import/export" --header "PRIVATE-TOKEN: hb9naBDbrCi26ZdsFnt4" --cookie cookie
-
-   #curl -k -v --http1.1 --referer https://git.itpartner.no/aeco/Cruisedatabase/edit  --request POST --data "_method=post&authenticity_token=cY1BWRuSpMSmcJnoYzb1AW45rGVpnqmx0IagjIdE2bRAAiKs0PY5EpRY0TL6n%2F0JgzKt9r0h9nkg6Nm5B3e4ZA%3D%3D " "https://git.itpartner.no/aeco/Cruisedatabase/export " --header "PRIVATE-TOKEN: hb9naBDbrCi26ZdsFnt4" --cookie cookie
 
 
 
