@@ -12,12 +12,19 @@ def main():
     os.mkdir(host[8:])
     os.chdir(host[8:])
     groups = json.loads(s.check_output('curl -k -s '+ host +'/api/v4/groups --header "PRIVATE-TOKEN: ' + private_token + '"', shell=True).decode('UTF-8'))
+
+    users=json.loads(s.check_output('curl -k -s "' + host + '/api/v4/users" --header "PRIVATE-TOKEN: '+ private_token + '"', shell=True).decode("utf-8"))
     
+    
+    for user in users:
+        createUser(user["username"])
+        os.chdir("../") 
+        
     for group in groups:
         createGroup(group["id"], group["name"])
         os.chdir("../")
         
-
+    
 
 
 
@@ -28,8 +35,14 @@ def createGroup(id, name):
     for project in projects:
         downloadProject(project["web_url"], project["name"])
         print("imbreaking")
-        raise OSError
+      
 
+def createUser(name):
+    os.mkdir(name)
+    os.chdir(name)
+    projects=json.loads(s.check_output('curl -k -s '+ host +'/api/v4/projects?search='+ name + ' --header "PRIVATE-TOKEN: ' + private_token + '"', shell=True).decode('UTF-8'))
+    for project in projects:
+        downloadProject(project["web_url"], project["name"])
 
 
 def downloadProject(url, name):

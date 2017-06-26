@@ -12,10 +12,18 @@ host= "https://git.itpartner.no"  #fill in the hostname of your gitlab-server
 def main():
     groups = json.loads(s.check_output('curl -k -s '+ host +'/api/v4/groups --header "PRIVATE-TOKEN: ' + private_token + '"', shell=True).decode('UTF-8'))
     
+    users=json.loads(s.check_output('curl -k -s "' + host + '/api/v4/users" --header "PRIVATE-TOKEN: '+ private_token + '"', shell=True).decode("utf-8"))
+
+    for user in users:
+        createUser(user["username"])
+    
+    
     for group in groups:
         createGroup(group["id"])
-        
 
+    
+        
+       
 
 
 
@@ -24,7 +32,14 @@ def createGroup(id):
     for project in projects:
         exportProject(project["web_url"])
         print("imbreaking")
-        raise OSError
+        
+
+def createUser(name):
+     projects=json.loads(s.check_output('curl -k -s '+ host +'/api/v4/projects?search='+ name + ' --header "PRIVATE-TOKEN: ' + private_token + '"', shell=True).decode('UTF-8'))
+     for project in projects:
+         exportProject(project["web_url"])
+
+
 
 
 
