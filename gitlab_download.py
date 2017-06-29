@@ -4,7 +4,7 @@ from urllib.parse import quote_plus
 import os
 
 
-private_token="hb9naBDbrCi26ZdsFnt4"  #fill in your private_token, from  curl --request POST "https://gitlab.example.com/api/v4/session?login=john_smith&password=strongpassw0rd"
+private_token="YS1qmjy9KC7k9YanUiPs"  #fill in your private_token, from  curl --request POST "https://gitlab.example.com/api/v4/session?login=john_smith&password=strongpassw0rd"
 
 host= "https://git.itpartner.no"   #fill in the hostname of your gitlab-server
 
@@ -19,6 +19,10 @@ def main():
     for user in users:
         createUser(user["username"])
         os.chdir("../") 
+    os.chdir("../")
+    os.mkdir("groups")
+    os.chdir('groups')
+
         
     for group in groups:
         createGroup(group["id"], group["name"])
