@@ -4,6 +4,7 @@ from urllib.parse import quote_plus
 import os
 
 
+
 private_token="YS1qmjy9KC7k9YanUiPs"  #fill in your private_token, from  curl --request POST "https://gitlab.example.com/api/v4/session?login=john_smith&password=strongpassw0rd"
 
 host= "https://git.itpartner.no"   #fill in the hostname of your gitlab-server
