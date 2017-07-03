@@ -6,7 +6,7 @@ from urllib.parse import quote
 
 private_token="iMhPXXD9mjBA7ufKzgVg"  #fill in your private_token, from  curl --request POST "https://gitlab.example.com/api/v4/session?login=john_smith&password=strongpassw0rd"
 
-host= "http://git01"   #fill in the hostname of your gitlab-server
+host= "http://10.253.18.105"   #fill in the hostname of your gitlab-server
 
 
 
@@ -57,7 +57,7 @@ def importProject(project, namespaceid, userid):
 
 
     print('\n\n'+call+'\n\n')
-    s.check_output('curl -k -s -X POST --data "user_id='+str(userid)+'&access_level=40" "http://git01/api/v4/projects/'+str(projectid)+'/members" --header "PRIVATE-TOKEN: ' + private_token + '"', shell=True)
+    s.check_output('curl -k -s -X POST --data "user_id='+str(userid)+'&access_level=40" "'+host+'/api/v4/projects/'+str(projectid)+'/members" --header "PRIVATE-TOKEN: ' + private_token + '"', shell=True)
 
     
     

@@ -9,7 +9,7 @@ idmapping={1:1,2:3,3:6,4:4,5:8,7:7,10:5,13:9}
 
 private_token="iMhPXXD9mjBA7ufKzgVg"  #fill in your private_token, from  curl --request POST "https://gitlab.example.com/api/v4/session?login=john_smith&password=strongpassw0rd"
 
-host= "http://git01"   #fill in the hostname of your gitlab-server
+host= "http://10.253.18.105"   #fill in the hostname of your gitlab-server
 
 host2="https://git.itpartner.no"
 private_token2="YS1qmjy9KC7k9YanUiPs"
@@ -91,12 +91,17 @@ def importProject(project, namespaceid):
     private_token2 + '" "'+ 
     host2 +'/api/v4/projects/?search='
     +project[:len(project)-7]+'"', shell=True).decode("utf-8")
+
+
     
     
     
     
-    #print(projectidCall2)
+    print(projectidCall2)
     projectid2=json.loads(projectidCall2)[0]["id"]
+    namespaceid2=json.loads(projectidCall2)[0]["namespace"]["path"]
+    
+    
 
 
 
@@ -106,24 +111,44 @@ def importProject(project, namespaceid):
     host+'/api/v4/projects/'+str(projectid)+'"'
     ,shell=True)
 
+
+
+
     
+    groupmembers=(json.loads(s.check_output('curl -k -s --header ' 
+    '"PRIVATE-TOKEN: '+ private_token2+'" "'+
+    host2+'/api/v4/groups/'+str(namespaceid2)+'/members"'
+    ,shell=True).decode("utf-8")))
     
-    members= json.loads(s.check_output('curl -k -s --header ' 
+    print(groupmembers)
+
+    members=json.loads(s.check_output('curl -k -s --header ' 
     '"PRIVATE-TOKEN: '+ private_token2+'" "'+
     host2+'/api/v4/projects/'+str(projectid2)+'/members"'
     ,shell=True).decode("utf-8"))
+    print(members) 
+
+
+    
+    members= members + groupmembers if isinstance(groupmembers, list) else members 
+    
+
 
     #print('curl -k -s --header ' 
     #'"PRIVATE-TOKEN: '+ private_token2+'" "'+
     #host2+'/api/v4/projects/'+str(projectid2)+'/members"')
     
-    #print(members)
+    print(members)
 
-    for member in members:
+
+
+    for mem in members:
         
-       # print('curl -k -s -X POST "user_id='+str(idmapping.get(member["id"],1))+'&access_level=40"  --header "PRIVATE-TOKEN: '+ private_token+'" "'+host+'/api/v4/projects/'+str(projectid)+'/members"')
-        
-        s.check_output('curl -k -s -X POST --data "user_id='+str(idmapping.get(member["id"],1))+'&access_level=40"  --header "PRIVATE-TOKEN: '+ private_token+'" "'+host+'/api/v4/projects/'+str(projectid)+'/members"', shell=True)
+        print(mem)
+        ids=mem.get("id",1) 
+          
+    
+        s.check_output('curl -k -s -X POST --data "user_id='+str(idmapping.get(ids,1))+'&access_level=40"  --header "PRIVATE-TOKEN: '+ private_token+'" "'+host+'/api/v4/projects/'+str(projectid)+'/members"', shell=True)
     
     importIssues(projectid, projectid2)
     
@@ -133,13 +158,14 @@ def importIssues(pid, pid2):
 
     )
     for issue in issues:
-        assignees=issue.get('assignee',0)
+        assignees=issue.get('assignee',{})
+        
         print(assignees)
 
         if (assignees):
-            #assigneesid=[idmapping.get(a['id'], 1) for a in assignees]
+            ids=assignees.get("id",1)
             s.check_output('curl --request PUT --header "PRIVATE-TOKEN: ' + private_token+'" "'+
-            host + '/api/v4/projects/'+str(pid)+'/issues/'+str(issue["iid"])+'?assignee_ids='+str(assignees["id"])+'"',  shell=True)
+            host + '/api/v4/projects/'+str(pid)+'/issues/'+str(issue["iid"])+'?assignee_ids='+str(idmapping.get(ids,1))+'"',  shell=True)
             
                  
         
@@ -147,12 +173,10 @@ def importIssues(pid, pid2):
 
 
 
-
-
     
 
 
-createGroup("IT Partner")
+main()
 
 
 
