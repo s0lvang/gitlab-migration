@@ -9,7 +9,7 @@ idmapping={1:1,2:3,3:6,4:4,5:8,7:7,10:5,13:9}
 
 private_token="iMhPXXD9mjBA7ufKzgVg"  #fill in your private_token, from  curl --request POST "https://gitlab.example.com/api/v4/session?login=john_smith&password=strongpassw0rd"
 
-host= "http://10.253.18.105"   #fill in the hostname of your gitlab-server
+host= "http://git01"   #fill in the hostname of your gitlab-server
 
 host2="https://git.itpartner.no"
 private_token2="YS1qmjy9KC7k9YanUiPs"
@@ -149,6 +149,13 @@ def importProject(project, namespaceid):
           
     
         s.check_output('curl -k -s -X POST --data "user_id='+str(idmapping.get(ids,1))+'&access_level=40"  --header "PRIVATE-TOKEN: '+ private_token+'" "'+host+'/api/v4/projects/'+str(projectid)+'/members"', shell=True)
+
+    if(isinstance(groupmembers, list)):
+
+        for gmem in groupmembers:
+            ids=gmem.get("id",1)
+            s.check_output('curl -k -s -X POST --data "user_id='+str(idmapping.get(ids,1))+'&access_level=50"  --header "PRIVATE-TOKEN: '+ private_token+'" "'+host+'/api/v4/groups/'+str(namespaceid2)+'/members"', shell=True)
+
     
     importIssues(projectid, projectid2)
     
@@ -176,7 +183,7 @@ def importIssues(pid, pid2):
     
 
 
-main()
+createGroup("Leroy")
 
 
 
