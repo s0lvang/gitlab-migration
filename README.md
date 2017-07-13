@@ -1,4 +1,4 @@
-#Gitlab-Migration
+# Gitlab-Migration
 
 
 This repository contains 5 scripts to import all your projects from one private
@@ -7,7 +7,7 @@ githost.io or some other service with no terminal access.
 
 An admin user to both gitlab servers is required.
 
-###HOW TO
+### HOW TO
 
 1. Clone this repository
 2. Edit all the files with your private-token and the url of your host.
@@ -29,7 +29,7 @@ An admin user to both gitlab servers is required.
 
 
 
-###Things i'm sorry for :(
+### Things i'm sorry for :(
 
 1. Unreadable code (the curl-expressions got out of hand) you can try with
    urllib
