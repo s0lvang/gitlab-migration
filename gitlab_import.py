@@ -6,15 +6,23 @@ from urllib.parse import quote
 
 idmapping= {1:1,2:9,3:6,4:8,5:4,7:5,10:7,13:3,11:11}
 
-private_token= "fFw4yujufboh5dL6T5tB"
+
+#####NEW HOST######
+
+private_token= ""
 #fill in your private_token, from  curl --request POST
 #"https://gitlab.example.com/api/v4/session?login=john_smith&password=strongpassw0rd"
 
-host= "http://10.253.18.101:31439"   #fill in the hostname of your gitlab-server
+host=""    #fill in the hostname of your gitlab-server
 
-host2= "https://git.itpartner.no"
 
-private_token2= "YS1qmjy9KC7k9YanUiPs"
+
+#####OLD HOST######
+host2= ""
+
+private_token2= ""
+
+
 
 groups= os.listdir()
 

@@ -5,9 +5,9 @@ from urllib.parse import quote
 
 
 
-private_token="iMhPXXD9mjBA7ufKzgVg"  #fill in your private_token, from  curl --request POST "https://gitlab.example.com/api/v4/session?login=john_smith&password=strongpassw0rd"
+private_token=""  #fill in your private_token, from  curl --request POST "https://gitlab.example.com/api/v4/session?login=john_smith&password=strongpassw0rd"
 
-host= "http://git01"   #fill in the hostname of your gitlab-server
+host= ""   #fill in the hostname of your gitlab-server
 
 
 groups=os.listdir()
