@@ -4,13 +4,13 @@ import json
 from urllib.parse import quote_plus
 from urllib.parse import quote
 
-idmapping= {1:1,2:3,3:6,4:4,5:8,7:7,10:5,13:9}
+idmapping= {1:1,2:9,3:6,4:8,5:4,7:5,10:7,13:3,11:11}
 
-private_token= "iMhPXXD9mjBA7ufKzgVg"
+private_token= "fFw4yujufboh5dL6T5tB"
 #fill in your private_token, from  curl --request POST
 #"https://gitlab.example.com/api/v4/session?login=john_smith&password=strongpassw0rd"
 
-host= "http://git01"   #fill in the hostname of your gitlab-server
+host= "http://10.253.18.101:31439"   #fill in the hostname of your gitlab-server
 
 host2= "https://git.itpartner.no"
 
@@ -31,10 +31,23 @@ def createGroup(group):
 
     print(group)
 
+
+    s.check_output('curl -k -s --request POST "' +
+                host + '/api/v4/groups?'+'name='+ pathgroup +
+                    '&path=' + pathgroup +'&visibility=internal" --header '
+                        '"PRIVATE-TOKEN: '+ private_token+'"',
+                        shell=True).decode("utf-8")
+
+
+
+
+
     stuff=s.check_output('curl -s --header '
                          '"PRIVATE-TOKEN: ' + private_token + '" "'+
                          host +'/api/v4/namespaces?search='+pathgroup+'"'
                          , shell=True).decode("utf-8")
+
+    print(stuff)
 
     namespaceid= json.loads(stuff)[0]["id"]
 
@@ -108,7 +121,7 @@ def addMembers(project):
 
         s.check_output('curl -k -s -X POST --data '
                 '"user_id='+str(idmapping.get(ids,1))+'&access_level=40"'
-                '--header "PRIVATE-TOKEN: '+ private_token+'"'
+                ' --header "PRIVATE-TOKEN: '+ private_token+'"'
                 ' "'+host+'/api/v4/projects/'+str(projectid)+'/members"'
                 , shell=True)
 
@@ -145,8 +158,7 @@ def importIssues(pid, pid2):
 
 
 
-
-createGroup("Leroy")
+main()
 
 
 
